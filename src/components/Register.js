@@ -8,43 +8,34 @@ const Register = () => {
         
 
     const registerUser = async (name, pass) => {
-//         fetch('https://strangers-things.herokuapp.com/api/COHORT-NAME/users/register', {
-//             method: "POST",
-//             headers: {
-//             'Content-Type': 'application/json'
-//                 },
-//             body: JSON.stringify({
-//             user: {
-//                 username: username,
-//                 password: password
-//     }
-//   })
+        if(confirmedPassword === password) {
         try{
-    const response = await fetch('https://strangers-things.herokuapp.com/api/2206-FTB-PT-WEB-PT/users/register', {
+    const response = await fetch('http://fitnesstrac-kr.herokuapp.com/api/users/register', {
                     method: "POST",
                     headers: {
                     'Content-Type': 'application/json'
                         },
                     body: JSON.stringify({
-                            user: {
                                 username: name,
                                 password: pass
-                                    }
         })
     })
         const result = await response.json();
-        alert(result.data.message);
-        setToken(result.data.token);
+        alert(result.message);
+        setToken(result.token);
         return result;
         } catch(err) {
             console.error(err);
         }
+    } else {
+        alert("Oops passwords dont match");
+    }
 }
 
 
     return (
         <>
-        <form onSubmit= { (event) =>{
+        <form className="d-flex justify-content-center flex-column" onSubmit= { (event) =>{
             event.preventDefault()
             registerUser(username, password)
             event.target.reset()
@@ -57,12 +48,12 @@ const Register = () => {
             }
             }></input><br/>
             <label htmlFor='password'>Password: </label>
-            <input type='password' id='password' minLength='6' onChange={(event) => {
+            <input type='password' id='password' minLength='8' onChange={(event) => {
                 setPassword(event.target.value)
             }
             }></input><br/>
             <label htmlFor='confirmPassword'>Confirm password: </label>
-            <input type='password' id='confirmPassword' minLength='6' onChange={(event) => {
+            <input type='password' id='confirmPassword' minLength='8' onChange={(event) => {
                 setConfirmedPassword(event.target.value)
             }}></input><br/>
             <input type='submit' value='Create Account'></input>

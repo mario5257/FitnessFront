@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Router, Link, Route, Routes, useNavigate, useParams, BrowserRouter} from "react-router-dom";
-import Register from './Register';
+import { Router, Link, Route, Routes, useNavigate, useParams, BrowserRouter } from "react-router-dom";
 
 const Login = (props) => {
     const name = props.username
@@ -14,67 +13,58 @@ const Login = (props) => {
         const response = await fetch('http://fitnesstrac-kr.herokuapp.com/api/users/login', {
             method: "POST",
             headers: {
-            'Content-Type': 'application/json'
-  },
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
-            user: {
-                username: name,
-                password: pass
-                }
-  })
-})
-    const result = await response.json();
-    
-    setToken(result.data.token);
-    return result
-}
-    
-    const logOut = () => {
-    setToken('');
-    setUsername('');
-    }
-    
-    // const isLoggedIn = () => {
-        // token? setIsLoggedIn(): null
+                    username: name,
+                    password: pass
+            })
+        })
+        const result = await response.json();
 
-        
-    // }
+        setToken(result.token);
+        return result
+    }
+
+    const logOut = () => {
+        setToken('');
+        setUsername('');
+    }
 
     return (
         <>
-            <form onSubmit={(event) =>{
+            <form className='d-flex justify-content-center flex-column' onSubmit={(event) => {
                 event.preventDefault()
-                console.log(token)
-                logIn( name , pass )
+                logIn(name, pass)
                 event.target.reset()
             }
             }>
-            <label htmlFor='username'>Username: </label>
-            <input type='text' id='username' minLength='8' onChange={(event) =>{
-                setUsername(event.target.value)
-            }
-            }></input>
-            <label htmlFor='password'>Password: </label>
-            <input type='password' id='password' min='6' onChange={(event) =>{
-                setPassword(event.target.value)
-            }
-            }></input>
-            {
-                
-                <><input type='submit' value='log in' onClick={(event) => {
-                        event.target.value === 'log in'? event.target.value = 'log out'
-                        : (event.target.value = 'log in', logOut())
+                <label htmlFor='username'>Username: </label>
+                <input type='text' id='username' minLength='8' onChange={(event) => {
+                    setUsername(event.target.value)
+                }
+                }></input>
+                <label htmlFor='password'>Password: </label>
+                <input type='password' id='password' min='6' onChange={(event) => {
+                    setPassword(event.target.value)
+                }
+                }></input>
+                {
+
+                    <><input type='submit' value='log in' onClick={(event) => {
+                        event.target.value === 'log in' ? event.target.value = 'log out'
+                            : (event.target.value = 'log in', logOut())
+                    }
+
+                    } ></input><br /></>
+
                 }
 
-                } ></input><br /></>
-                
-        }
-    
-            
-            <Link to={'/login/register'} className='btn btn-danger'>Need an account?</Link>
+
+                <Link to={'/login/register'} className='btn btn-danger'>Need an account?</Link>
             </form>
-        
-            </>
+
+        </>
     )
 }
 
