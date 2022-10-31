@@ -10,7 +10,7 @@ const Register = () => {
     const registerUser = async (name, pass) => {
         if(confirmedPassword === password) {
         try{
-    const response = await fetch('http://fitnesstrac-kr.herokuapp.com/api/users/register', {
+    const response = await fetch('https://fitnesstrac-kr.herokuapp.com/api/users/register', {
                     method: "POST",
                     headers: {
                     'Content-Type': 'application/json'

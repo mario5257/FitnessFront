@@ -7,7 +7,7 @@ const MyRoutines = (props) => {
 
     const fetchUsersRoutines = async (username) => {
         try {
-            const response = await fetch(`http://fitnesstrac-kr.herokuapp.com/api/users/${username}/routines`, {
+            const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/users/${username}/routines`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -24,7 +24,7 @@ const MyRoutines = (props) => {
 
     const deleteUserRoutine = async (id, token) => {
         try {
-            await fetch(`http://fitnesstrac-kr.herokuapp.com/api/routines/${id}`, {
+            await fetch(`https://fitnesstrac-kr.herokuapp.com/api/routines/${id}`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',

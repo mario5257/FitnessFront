@@ -21,7 +21,7 @@ const Routines = (props) => {
 
     const fetchRoutines = async () => {
         try {
-            const response = await fetch('http://fitnesstrac-kr.herokuapp.com/api/routines',
+            const response = await fetch('https://fitnesstrac-kr.herokuapp.com/api/routines',
                 {
                     headers: {
                         'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ const Routines = (props) => {
 
     const createUserRoutine = async (name, isPublic, goal, token) => {
         try {
-            const response = await fetch('http://fitnesstrac-kr.herokuapp.com/api/routines', {
+            const response = await fetch('https://fitnesstrac-kr.herokuapp.com/api/routines', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ const Routines = (props) => {
 
     const deleteUserRoutine = async (id, token) => {
         try {
-            await fetch(`http://fitnesstrac-kr.herokuapp.com/api/routines/${id}`, {
+            await fetch(`https://fitnesstrac-kr.herokuapp.com/api/routines/${id}`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',

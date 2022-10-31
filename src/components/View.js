@@ -25,7 +25,7 @@ const View = (props) => {
 
     const addActivity = async (name, count, description, duration, token) => {
         try {
-            const response = await fetch(`http://fitnesstrac-kr.herokuapp.com/api/routines/${singleRoutine.id}/activities`, {
+            const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/routines/${singleRoutine.id}/activities`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const View = (props) => {
     }
     const editActivity = async (name, description, count, duration) => {
         try {
-            const response = await fetch(`http://fitnesstrac-kr.herokuapp.com/api/activities/${id}`, {
+            const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/activities/${id}`, {
                 method: "PATCH",
                 headers: {
                     'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ const View = (props) => {
     }
     const deleteRoutine = async (id, token) => {
         try {
-            await fetch(`http://fitnesstrac-kr.herokuapp.com/api/routines/${id}`, {
+            await fetch(`https://fitnesstrac-kr.herokuapp.com/api/routines/${id}`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',

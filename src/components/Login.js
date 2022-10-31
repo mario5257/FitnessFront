@@ -10,7 +10,7 @@ const Login = (props) => {
     // const setIsLoggedIn = props.setIsLoggedIn
 
     const logIn = async (name, pass) => {
-        const response = await fetch('http://fitnesstrac-kr.herokuapp.com/api/users/login', {
+        const response = await fetch('https://fitnesstrac-kr.herokuapp.com/api/users/login', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
