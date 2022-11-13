@@ -2,25 +2,23 @@ import { Router, Link, Route, Routes, useNavigate, useParams } from "react-route
 import { useEffect, useState } from 'react'
 
 const MyRoutines = (props) => {
+    const [user, setUser] = useState({})
     const username = props.username
+    const token = props.token;
     const [ userRoutines, setUserRoutines ] = useState([]);
 
     const fetchUsersRoutines = async (username) => {
-        try {
-            const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/users/${username}/routines`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            const result = await response.json()
-            setUserRoutines(result.routines)
-        } catch (err) {
-            console.error(err.message)
-        }
+        fetch(`https://fitnesstrac-kr.herokuapp.com/api/users/${username}/routines`, {
+  headers: {
+    'Content-Type': 'application/json'
+  },
+}).then(response => response.json())
+  .then(result => {
+   setUserRoutines(result);
+  })
+  .catch(console.error);
     }
-    useEffect(() => {
-        fetchUsersRoutines(username);
-    }, [userRoutines])
+
 
     const deleteUserRoutine = async (id, token) => {
         try {
@@ -35,72 +33,47 @@ const MyRoutines = (props) => {
             console.error(err.message)
         }
     }
+    const getUser = async (token) => {
+       await fetch('https://fitnesstrac-kr.herokuapp.com/api/users/me', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+  },
+}).then(response => response.json())
+  .then(result => {
+    setUser(result)
+  })
+  .catch(console.error);
+    }
+
+    useEffect(() => {
+        getUser(token);
+        console.log(user);
+        fetchUsersRoutines(username);
+    }, [userRoutines])
 
 return (<>
-    <h2>My Routines</h2>
+    <h2 className="bg-white shadow p-3 rounded">My Routines</h2>
                 <ul>
                     {
+                        userRoutines? 
                         userRoutines.map((routine) => {
                             return <div key={routine.id} className='row mb-3'>
                                 {
-                                    routine.isPublic ? <div key={routine.id}>
+                                        <div key={routine.id}>
                                         <h3>{routine.name}</h3>
                                         <h4 title={routine.goal}>Whats your goal?: {routine.goal}</h4>
                                         <h4 title={routine.name}>Is post public?: active</h4>
+                                        <Link to={`/routines/edit/${routine.id}`} className='bg-white'><input type='button' className="btn btn-danger ms-2" value='edit'></input></Link>
 
-                                        <form className="d-flex justify-content-center flex-column" >
-                                            <input type='submit' value='edit' className="btn btn-secondary" onClick={(event) => {
-                                                event.preventDefault()
-                                                return <>
-
-                                                    <input type='text' id='Routine Name' placeholder='Routine Name' className="bg-light" onChange={(event) => setName(event.target.value)}></input>
-                                                    <input type='text' id='Goal' placeholder='Goal' className="bg-light" onChange={(event) => setGoal(event.target.value)}></input>
-                                                    <label>Make Public?</label>
-                                                    <input type='checkbox' className="btn btn-white" onChange={() => {
-                                                        isPublic ? setIsPublic(false)
-                                                            : setIsPublic(true);
-                                                    }}></input>
-                                                    <input type='submit' value='Create Routine' className="btn btn-light"></input>
-                                                </>
-                                            }}>
-                                            </input>
-                                            <input type='button' value='delete' className="btn btn-secondary" id={routine.id} onClick={(event) => {
-                                                event.preventDefault()
-                                                deleteUserRoutine(routine.id, token)
-                                            }}></input>
-                                        </form>
-                                    </div> : <div key={routine.id}>
-                                        <h3>{routine.name}</h3>
-                                        <h4 title={routine.goal}>Whats your goal?: {routine.goal}</h4>
-                                        <h4 title={routine.name}>Is post public?: Routine not public</h4>
-
-                                        <form>
-                                            <input type='submit' value='edit' className="btn btn-secondary" onClick={(event) => {
-                                                event.preventDefault()
-                                                return <>
-
-                                                    <input type='text' id='Routine Name' placeholder='Routine Name' className="bg-light" onChange={(event) => setName(event.target.value)}></input>
-                                                    <input type='text' id='goal' className="bg-light" placeholder='Goal' onChange={(event) => setGoal(event.target.value)}></input>
-                                                    <label>Make Public?</label>
-                                                    <input type='checkbox' className="btn btn-white" onChange={() => {
-                                                        isPublic ? setIsPublic(false)
-                                                            : setIsPublic(true);
-                                                    }}></input>
-                                                    <input type='submit' value='Create Routine'></input>
-                                                </>
-                                            }}>
-                                            </input>
-                                            <input type='button' value='delete' className="btn btn-secondary" id={routine.id} onClick={(event) => {
-                                                event.preventDefault()
-                                                deleteUserRoutine(routine.id, token)
-                                            }}></input>
-                                        </form>
-                                    </div>
+                                    </div> 
                                 }</div>
                         })
 
-                    }
-
+                    :<div className="fs-2">
+                    No Routines Yet
+                </div>
+                } 
                 </ul>
     </>
 )

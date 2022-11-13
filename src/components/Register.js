@@ -42,23 +42,32 @@ const Register = () => {
 
             }
         }>
-            <label htmlFor='username'>Username: </label>
-            <input type='text' id='username' onChange={(event) => {
+            {/* <label htmlFor='username'>Username: </label> */}
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Username</span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" onChange={(event) => {
                 setUsername(event.target.value)
-            }
-            }></input><br/>
-            <label htmlFor='password'>Password: </label>
-            <input type='password' id='password' minLength='8' onChange={(event) => {
+            }}></input><br/>
+            </div>
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Password</span>
+            <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={(event) => {
                 setPassword(event.target.value)
-            }
-            }></input><br/>
-            <label htmlFor='confirmPassword'>Confirm password: </label>
-            <input type='password' id='confirmPassword' minLength='8' onChange={(event) => {
+            }}></input><br/>
+            </div>
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Confirm Password</span>
+            <input type="text" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="basic-addon1" onChange={(event) => {
                 setConfirmedPassword(event.target.value)
             }}></input><br/>
-            <input type='submit' value='Create Account'></input>
+            </div>
+            
+            <div class="d-grid gap-2 col-6 mx-auto">
+            <input className="btn btn-success btn-lg" type='submit' value='Create Account'></input>
+        <Link to={'/login'} className='btn btn-success btn-lg'>Ready to log in?</Link>
+        </div>
         </form>
-        <Link to={'/login'} className='btn btn-danger'>Ready to log in?</Link>
+
         </>
     )
 

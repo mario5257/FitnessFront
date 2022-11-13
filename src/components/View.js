@@ -62,6 +62,20 @@ const View = (props) => {
             console.error(err)
         }
     }
+    const deleteActivity = async (id, token) => {
+            await fetch(`http://fitnesstrac-kr.herokuapp.com/api/routine_activities/${id}`, {
+                method: "DELETE",
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+                }
+            }).then(response => response.json())
+                .then(result => {
+                console.log(result);
+                })
+                .catch(console.error);
+    }
+
     const deleteRoutine = async (id, token) => {
         try {
             await fetch(`https://fitnesstrac-kr.herokuapp.com/api/routines/${id}`, {
@@ -81,83 +95,30 @@ const View = (props) => {
     }
     // setTimeout(() => {
         return  <>
-        <h2>Routine: {singleRoutine.name}</h2>
-        <h4 title={singleRoutine.name}>Is it public?: {singleRoutine.description}</h4>
+        <h2 className="bg-white fs-1 shadow rounded">{singleRoutine.name}</h2>
         <h4 title={singleRoutine.name}>Goal: {singleRoutine.goal}</h4>
         <h2>Routine Exercises</h2>
+        <div className="d-flex row flex-row border-success">
         {
+
             singleRoutine.activities ? singleRoutine.activities.map((activity) => {
                 return <>
-                    <h4>Exercise name: {activity.name}</h4>
-                    <h4>Exercise description: {activity.description}</h4>
-                    <h4>How long to do exercise: {activity.duration}</h4>
-                    <h4>How many reps: {activity.count}</h4>
-                    <label>Delete Routine</label>
-                    <input type='checkbox' className="btn btn-white" onChange={() => {
-                                                        token ? deleteRoutine()
-                                                            : "not the owner";
-                                                    }}></input>
+                <div className="col-sm-6">
+                    <div className="card border-success shadow  mb-5 rounded" key={activity.title} style={{marginRight: '1em', marginLeft: '1em', marginBottom: '1em'}}>
+                    <h5 className="card-header">{activity.name}</h5>
+                    <div className="card-body" key={activity.id}>
+                    <h4 className="card-text">Exercise description: {activity.description}</h4>
+                    <h4 className="card-text">How long to do exercise: {activity.duration}</h4>
+                    <h4 className="card-text">How many reps: {activity.count}</h4>
+                                                    </div>
+                    </div>
+                    </div>
                 </>
             }) : <h4>No Activities</h4>
         }
-        {<form className="d-flex justify-content-center flex-column" onSubmit={(event) => {
-            event.preventDefault()
-            editActivity(name, description, count, duration, token)
-            event.target.reset()
-        }}>
-            <label>Edit exercise name: </label>
-            <input type='textarea' onChange={(event) => {
-                event.preventDefault()
-                setName(event.target.value)
-            }}></input>
-            <label>Edit exercise description: </label>
-            <input type='textarea' onChange={(event) => {
-                event.preventDefault()
-                setDescription(event.target.value)
-            }}></input>
-            <label>Edit how long to do exercise:  </label>
-            <input type='textarea' onChange={(event) => {
-                event.preventDefault()
-                setDuration(event.target.value)
-            }}></input>
-            <label>Edit how many reps to do: </label>
-            <input type='textarea' onChange={(event) => {
-                event.preventDefault()
-                setCount(event.target.value)
-            }}></input>
-            <input type='submit' value='Finish Edit'></input>
-        </form>
-        }
-        {   <form className="d-flex justify-content-center flex-column" onSubmit={(event) => {
-                event.preventDefault()
-                addActivity(name, description, count, duration, token)
-                event.target.reset()
-            }}>
+            </div>
 
-                <label>Add Exercise to routine: </label>
-                <input type='textarea' onChange={(event) => {
-                    event.preventDefault()
-                    setName(event.target.value)
-                }}></input>
-                <label>Add exercise description: </label>
-                <input type='textarea' onChange={(event) => {
-                    event.preventDefault()
-                    setDescription(event.target.value)
-                }}></input>
-                <label>Add how long to do exercise:  </label>
-                <input type='textarea' onChange={(event) => {
-                    event.preventDefault()
-                    setDuration(event.target.value)
-                }}></input>
-                <label>Add how many reps to do: </label>
-                <input type='textarea' onChange={(event) => {
-                    event.preventDefault()
-                    setCount(event.target.value)
-                }}></input>
-                <input type='submit' value='Add activity'></input>
-            </form>
-
-        }
+ 
 
         <Link to={'/routines'} className="btn btn-danger">Return to routines</Link>
     </>

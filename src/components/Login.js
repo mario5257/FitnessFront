@@ -10,7 +10,8 @@ const Login = (props) => {
     // const setIsLoggedIn = props.setIsLoggedIn
 
     const logIn = async (name, pass) => {
-        const response = await fetch('https://fitnesstrac-kr.herokuapp.com/api/users/login', {
+        try {
+           const response = await fetch('https://fitnesstrac-kr.herokuapp.com/api/users/login', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -21,9 +22,15 @@ const Login = (props) => {
             })
         })
         const result = await response.json();
-
         setToken(result.token);
-        return result
+        if(!result.token){
+            alert('incorrect username or password')
+        }
+    } catch (err) {
+        
+        console.error(err.message)
+
+    }
     }
 
     const logOut = () => {
@@ -39,19 +46,21 @@ const Login = (props) => {
                 event.target.reset()
             }
             }>
-                <label htmlFor='username'>Username: </label>
-                <input type='text' id='username' minLength='8' onChange={(event) => {
-                    setUsername(event.target.value)
-                }
-                }></input>
-                <label htmlFor='password'>Password: </label>
-                <input type='password' id='password' min='6' onChange={(event) => {
-                    setPassword(event.target.value)
-                }
-                }></input>
+                            <div className="input-group mb-3">
+            <span className="input-group-text" id="basic-addon1">Username</span>
+            <input type="text" className="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" onChange={(event) => {
+                setUsername(event.target.value)
+            }}></input><br/>
+            </div>
+                <div className="input-group mb-3">
+            <span className="input-group-text" id="basic-addon1">Password</span>
+            <input type="password" className="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={(event) => {
+                setPassword(event.target.value)
+            }}></input><br/>
+            </div>
                 {
 
-                    <><input type='submit' value='log in' onClick={(event) => {
+                    <><input type='submit' value='log in' className='btn btn-success btn-lg' onClick={(event) => {
                         event.target.value === 'log in' ? event.target.value = 'log out'
                             : (event.target.value = 'log in', logOut())
                     }
@@ -61,11 +70,11 @@ const Login = (props) => {
                 }
 
 
-                <Link to={'/login/register'} className='btn btn-danger'>Need an account?</Link>
+                <Link to={'/login/register'} className='btn btn-danger btn-lg'>Need an account?</Link>
             </form>
 
         </>
     )
 }
 
-export default Login
+export default Login;
